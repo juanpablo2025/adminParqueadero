@@ -1,0 +1,38 @@
+
+Z
+java:S2589"7Remove this expression which always evaluates to "true"(΅²λύÿÿÿÿ8ηο±ε‘2
+{	java:S135Ε"YReduce the total number of break and continue statements in this loop to use at most one.(οÿÿÿÿÿ8μο±ε‘2
+{	java:S135·"YReduce the total number of break and continue statements in this loop to use at most one.(ΛΨαωϋÿÿÿÿ8μο±ε‘2
+d
+java:S2095ς"FUse try-with-resources or close this "Document" in a "finally" clause.(ϋ¨¤8νο±ε‘2
+l
+java:S2095{"JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(„°ÿÿÿÿÿ8νο±ε‘2
+L	java:S1064"+Replace this use of System.out by a logger.(ΒΆΰϊÿÿÿÿ8σο±ε‘2
+L	java:S1065"+Replace this use of System.out by a logger.(Η‹αύÿÿÿÿ8σο±ε‘2
+L	java:S1066"+Replace this use of System.out by a logger.(±ράύÿÿÿÿ8σο±ε‘2
+L	java:S1067"+Replace this use of System.out by a logger.(Σβ•ÿÿÿÿÿ8σο±ε‘2
+L	java:S1068"+Replace this use of System.out by a logger.(Ο­ΧΡϋÿÿÿÿ8σο±ε‘2
+G	java:S106C"+Replace this use of System.out by a logger.(τΆα8σο±ε‘2
+L	java:S106P"+Replace this use of System.out by a logger.(¬υΗίόÿÿÿÿ8σο±ε‘2
+F	java:S106S"+Replace this use of System.out by a logger.(εσθK8το±ε‘2
+L	java:S106Y"+Replace this use of System.out by a logger.(Υ«¥όÿÿÿÿ8το±ε‘2
+L	java:S106^"+Replace this use of System.out by a logger.(ΔδϋΓϋÿÿÿÿ8το±ε‘2
+L	java:S106b"+Replace this use of System.out by a logger.(Υ«¥όÿÿÿÿ8το±ε‘2
+G	java:S106h"+Replace this use of System.out by a logger.(²λΙΆ8υο±ε‘2
+G	java:S106m"+Replace this use of System.out by a logger.(Φ…Νκ8υο±ε‘2
+L	java:S106v"+Replace this use of System.out by a logger.(«Φϋÿÿÿÿ8υο±ε‘2
+H	java:S106—"+Replace this use of System.out by a logger.(λήχ8ύο±ε‘2
+H	java:S106¥"+Replace this use of System.out by a logger.(®Φο€8ύο±ε‘2
+u
+java:S3776¬"RRefactor this method to reduce its Cognitive Complexity from 48 to the 15 allowed.(ΥΓ©όÿÿÿÿ8ώο±ε‘2
+H	java:S106κ"+Replace this use of System.out by a logger.(²λΙΆ8€π±ε‘2
+H	java:S106μ"+Replace this use of System.out by a logger.(Ζί™‰8€π±ε‘2
+M	java:S106ο"+Replace this use of System.out by a logger.(Ο«ωΰÿÿÿÿÿ8€π±ε‘2
+U
+java:S1068""3Remove this unused "PRECIO_POR_HORA" private field.(’ψ™µϊÿÿÿÿ8‘π±ε‘2
+P
+java:S1068#"4Remove this unused "INCREMENTO_1H15M" private field.(­Αƒf8‘π±ε‘2
+S
+java:S1068$"1Remove this unused "PRECIO_2HORAS" private field.(›τ€ÿÿÿÿÿ8‘π±ε‘2
+Z
+java:S1068%"8Remove this unused "PRECIO_MAXIMO_5HORAS" private field.(ωϊεψÿÿÿÿ8‘π±ε‘2
