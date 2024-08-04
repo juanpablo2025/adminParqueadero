@@ -605,7 +605,9 @@ public class Main {
     }
 
     private static int calcularCosto(int minutos) {
-        if (minutos <= 60) {
+        if (minutos <= 2) {
+            return 0; // Periodo de gracia de 2 minutos
+        } else if (minutos <= 60) {
             return 1200; // Tarifa por 1 hora o menos
         } else if (minutos <= 75) {
             return 1800; // Tarifa por más de 1 hora hasta 1 hora 15 minutos
@@ -623,7 +625,6 @@ public class Main {
             return 5000; // Tarifa máxima por más de 4 horas 15 minutos
         }
     }
-
     private static String formatearCosto(double costo) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setGroupingSeparator(',');
