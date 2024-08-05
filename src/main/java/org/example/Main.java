@@ -36,9 +36,9 @@ public class Main {
     private static final int PRECIO_MAXIMO_5HORAS = 5000;
 
     private static final String USER_HOME = System.getProperty("user.home");
-    private static final String EXCEL_FILE_PATH = USER_HOME + "\\Downloads\\parqueadero.xlsx";
-    private static final String PDF_FILE_PATH = USER_HOME + "\\Downloads\\factura_parqueadero_";
-    private static final String MENSUALIDADES_FILE_PATH = USER_HOME + "\\Downloads\\mensualidades.xlsx";
+    private static final String EXCEL_FILE_PATH = USER_HOME + "\\Downloads\\Parqueadero\\parqueadero.xlsx";
+    private static final String PDF_FILE_PATH = USER_HOME + "\\Downloads\\Parqueadero\\facturas\\factura_parqueadero_";
+    private static final String MENSUALIDADES_FILE_PATH = USER_HOME + "\\Downloads\\Parqueadero\\mensualidades.xlsx";
 
 
     public static void main(String[] args) {
@@ -70,6 +70,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Saliendo del programa...");
+                    renombrarArchivoConFecha(EXCEL_FILE_PATH);
                     return;
                 default:
                     System.out.println("Opción no válida. Por favor, intente de nuevo.");
@@ -98,7 +99,7 @@ public class Main {
         System.out.println("1. Registrar entrada de moto");
         System.out.println("2. Registrar salida de moto");
         System.out.println("3. Pagar mensualidad");
-        System.out.println("4. Salir");
+        System.out.println("4. Liquidar caja y salir del programa");
         System.out.print("Seleccione una opción: ");
     }
 
@@ -171,22 +172,27 @@ public class Main {
             document.add(new Paragraph("Recibo de Registro de Moto")
                     .setFont(fontBold)
                     .setFontSize(12)
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(2)); // Ajustar el margen inferior
 
-            document.add(new Paragraph("Dirección: CL 54 / Caracas")
+            document.add(new Paragraph("Dirección: CL 54/Caracas")
                     .setFont(fontNormal)
                     .setFontSize(8)
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(1)); // Ajustar el margen inferior
 
-            document.add(new Paragraph("Horario: 5:00 AM - 7:30 PM (Lunes a Viernes) 5:00 AM - 6:00 PM (Sábados)")
+            document.add(new Paragraph("Horario: 5:00 AM - 7:30 PM (Lunes a Viernes)" +
+                    "                            5:00 AM - 6:00 PM (Sábados)")
                     .setFont(fontNormal)
                     .setFontSize(8)
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(5)); // Ajustar el margen inferior
 
             // Línea separadora
             document.add(new Paragraph(new String(new char[48]).replace("\0", "_"))
                     .setFont(fontNormal)
-                    .setFontSize(8));
+                    .setFontSize(8)
+                    .setMarginBottom(10)); // Ajustar el margen inferior
 
             // Crear la tabla para detalles
             Table table = new Table(new float[]{2, 3}); // Dos columnas: la primera más estrecha, la segunda más ancha
@@ -195,20 +201,23 @@ public class Main {
             // Agregar las filas a la tabla
             addTableRow(table, "PLACA:", placa.toUpperCase());
             addTableRow(table, "HORA ENTRADA:", fechaHoraEntrada);
-            addTableRow(table, "POSICIÓN CASCOS:", posicionCascos);
+            addTableRow(table, "SECTOR CASCOS:", posicionCascos);
 
             document.add(table);
 
             // Otra línea separadora
             document.add(new Paragraph(new String(new char[48]).replace("\0", "_"))
                     .setFont(fontNormal)
-                    .setFontSize(8));
+                    .setFontSize(8)
+                    .setMarginTop(10) // Ajustar el margen superior
+                    .setMarginBottom(10)); // Ajustar el margen inferior
 
-            // Añadir "¡Gracias por registrar su moto!" y ajustar la página para que se adapte al contenido
+            // Añadir "¡Bienvenido, gracias por tu visita!" y ajustar la página para que se adapte al contenido
             document.add(new Paragraph("¡Bienvenido, gracias por tu visita!")
                     .setFont(fontNormal)
                     .setFontSize(8)
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginTop(5)); // Ajustar el margen superior
 
             document.close();
             abrirPDF(pdfFilePath);
@@ -280,14 +289,13 @@ public class Main {
         int costo = calcularCosto(minutos);
         Double valor = (double) costo;
         String tiempoTranscurrido = formatearTiempoTranscurrido(minutos);
-        registrarSalida(placa, fechaHoraSalida,valor);
+        registrarSalida(placa, fechaHoraSalida, valor);
 
         String posicionCascos = leerPosicionCascos(placa);
 
         System.out.println("El costo del estacionamiento es: " + costo + " pesos");
         System.out.println("Posición de los cascos: " + posicionCascos);
-        String pdfFilePath = PDF_FILE_PATH + placa + "_" + fechaHoraSalida.replaceAll("[:\\-\\s]", "_") + ".pdf";
-        generarPDF(placa, fechaHoraEntrada, fechaHoraSalida, tiempoTranscurrido, costo);
+        String pdfFilePath = generarPDF(placa, fechaHoraEntrada, fechaHoraSalida, tiempoTranscurrido, costo);
 
         // Preguntar si el usuario desea calcular el cambio
         System.out.println("¿Desea calcular el cambio a devolver? (si/no)");
@@ -337,7 +345,6 @@ public class Main {
             e.printStackTrace();
         }
     }
-
     private static String leerPosicionCascos(String placa) {
         try (FileInputStream fis = new FileInputStream(MENSUALIDADES_FILE_PATH)) {
             Workbook workbook = new XSSFWorkbook(fis);
@@ -671,7 +678,8 @@ public class Main {
         return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }
 
-    public static void generarPDF(String placa, String fechaHoraEntrada, String fechaHoraSalida, String tiempoTranscurrido, int costo) {
+    public static String generarPDF(String placa, String fechaHoraEntrada, String fechaHoraSalida, String tiempoTranscurrido, int costo) {
+        String pdfFilePath = PDF_FILE_PATH + placa + "_" + fechaHoraSalida.replaceAll("[:\\-\\s]", "_") + ".pdf";
         try {
             // Define las dimensiones del papel térmico
             float anchoMm = 80; // ancho en mm
@@ -681,7 +689,6 @@ public class Main {
 
             PageSize pageSize = new PageSize(anchoPuntos, altoPuntos);
 
-            String pdfFilePath = PDF_FILE_PATH + placa + "_" + fechaHoraEntrada.replaceAll("[:\\-\\s]", "_") + ".pdf";
             File pdfFile = new File(pdfFilePath);
             pdfFile.getParentFile().mkdirs(); // Crear directorio si no existe
 
@@ -696,23 +703,26 @@ public class Main {
             document.setMargins(5, 5, 5, 5); // Margen superior, derecho, inferior, izquierdo en puntos
 
             // Título
-            document.add(new Paragraph("Recibo de Parqueadero")
+            document.add(new Paragraph("Recibo de Registro de Moto")
                     .setFont(fontBold)
-                    .setFontSize(10) // Ajustar tamaño de fuente para papel térmico
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(2)); // Ajustar el margen inferior
 
-            document.add(new Paragraph("Dirección: CL 54 / Caracas")
+            document.add(new Paragraph("Dirección: CL 54/Caracas")
                     .setFont(fontNormal)
-                    .setFontSize(8) // Ajustar tamaño de fuente para papel térmico
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setFontSize(8)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(1)); // Ajustar el margen inferior
 
-            document.add(new Paragraph("Horario: 5:00 AM - 7:30 PM (Lunes a Viernes) 5:00 AM - 6:00 PM (Sábados)")
+            document.add(new Paragraph("Horario: 5:00 AM - 7:30 PM (Lunes a Viernes)" +
+                    "                            5:00 AM - 6:00 PM (Sábados)")
                     .setFont(fontNormal)
-                    .setFontSize(8) // Ajustar tamaño de fuente para papel térmico
-                    .setTextAlignment(TextAlignment.CENTER));
-
+                    .setFontSize(8)
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(5)); // Ajustar el margen inferior
             // Línea separadora
-            document.add(new Paragraph(new String(new char[45]).replace("\0", "_"))
+            document.add(new Paragraph(new String(new char[48]).replace("\0", "_"))
                     .setFont(fontNormal)
                     .setFontSize(8)); // Ajustar tamaño de fuente para papel térmico
 
@@ -729,11 +739,8 @@ public class Main {
 
             document.add(table);
 
-
-
-
             // Otra línea separadora
-            document.add(new Paragraph(new String(new char[45]).replace("\0", "_"))
+            document.add(new Paragraph(new String(new char[48]).replace("\0", "_"))
                     .setFont(fontNormal)
                     .setFontSize(8)); // Ajustar tamaño de fuente para papel térmico
 
@@ -746,9 +753,8 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return pdfFilePath;
     }
-
 
     private static void addTableRow(Table table, String title, String value) throws IOException {
         Cell titleCell = new Cell().add(new Paragraph(title.toUpperCase())
@@ -831,23 +837,26 @@ public class Main {
             document.setMargins(5, 5, 5, 5); // Margen superior, derecho, inferior, izquierdo en puntos
 
             // Título
-            document.add(new Paragraph("Recibo de Pago de Mensualidad")
+            document.add(new Paragraph("Recibo de Registro de Moto")
                     .setFont(fontBold)
                     .setFontSize(12)
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(2)); // Ajustar el margen inferior
 
-            document.add(new Paragraph("Dirección: CL 54 / Caracas")
+            document.add(new Paragraph("Dirección: CL 54/Caracas")
                     .setFont(fontNormal)
                     .setFontSize(8)
-                    .setTextAlignment(TextAlignment.CENTER));
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(1)); // Ajustar el margen inferior
 
-            document.add(new Paragraph("Horario: 5:00 AM - 7:30 PM (Lunes a Viernes) 5:00 AM - 6:00 PM (Sábados)")
+            document.add(new Paragraph("Horario: 5:00 AM - 7:30 PM (Lunes a Viernes)" +
+                    "                            5:00 AM - 6:00 PM (Sábados)")
                     .setFont(fontNormal)
                     .setFontSize(8)
-                    .setTextAlignment(TextAlignment.CENTER));
-
+                    .setTextAlignment(TextAlignment.CENTER)
+                    .setMarginBottom(5)); // Ajustar el margen inferior
             // Línea separadora
-            document.add(new Paragraph(new String(new char[45]).replace("\0", "_"))
+            document.add(new Paragraph(new String(new char[48]).replace("\0", "_"))
                     .setFont(fontNormal)
                     .setFontSize(8));
 
@@ -864,7 +873,7 @@ public class Main {
             document.add(table);
 
             // Otra línea separadora
-            document.add(new Paragraph(new String(new char[45]).replace("\0", "_"))
+            document.add(new Paragraph(new String(new char[48]).replace("\0", "_"))
                     .setFont(fontNormal)
                     .setFontSize(8));
 
@@ -883,6 +892,22 @@ public class Main {
             e.printStackTrace();
         }
 
+    }
+
+    private static void renombrarArchivoConFecha(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            String fechaActual = new SimpleDateFormat("ddMMyy").format(new Date());
+            String nuevoNombre = "parqueadero" + fechaActual + ".xlsx";
+            File nuevoArchivo = new File(file.getParent(), nuevoNombre);
+            if (file.renameTo(nuevoArchivo)) {
+                System.out.println("El archivo ha sido renombrado a: " + nuevoNombre);
+            } else {
+                System.out.println("No se pudo renombrar el archivo.");
+            }
+        } else {
+            System.out.println("El archivo no existe.");
+        }
     }
 
 }
