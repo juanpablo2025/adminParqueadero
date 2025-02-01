@@ -17,12 +17,12 @@ java:S11926"WDefine a constant instead of duplicating this literal "Registro Me
 java:S11921"FDefine a constant instead of duplicating this literal "Placa" 4 times.(©àî8³ô¿ÿ‘2J$dd5e0cba-9101-45bd-b66a-e2474926cafd
 ½
 java:S1192¹"yDefine a constant instead of duplicating this literal "                            5:00 AM - 6:00 PM (SÃ¡bados)" 3 times.(¢²ß8ãç×ÿ‘2J$64ea90e7-c34a-41dc-94d3-ee3fd6df53b4
-“
-java:S2095û"JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(˜„°ÿÿÿÿÿ8´ô¿ÿ‘2J$fb28e6e4-740a-49ee-94cb-eabaf085cfed
-Š
-java:S2095¿"FUse try-with-resources or close this "Document" in a "finally" clause.(Ş®¨8´ô¿ÿ‘2J$0c4f09df-d265-48a9-9671-6bbad26fdf25
 Š
 java:S2095£"FUse try-with-resources or close this "Document" in a "finally" clause.(Ş®¨8´ô¿ÿ‘2J$15b65b46-2fa1-4148-8c6a-016448b7f8eb
+Š
+java:S2095¿"FUse try-with-resources or close this "Document" in a "finally" clause.(Ş®¨8´ô¿ÿ‘2J$0c4f09df-d265-48a9-9671-6bbad26fdf25
+“
+java:S2095û"JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(˜„°ÿÿÿÿÿ8´ô¿ÿ‘2J$fb28e6e4-740a-49ee-94cb-eabaf085cfed
 Š
 java:S2095¹"FUse try-with-resources or close this "Document" in a "finally" clause.(Ş®¨8´ô¿ÿ‘2J$6c0e8195-5290-4865-9cd1-e137b8215e3f
 r	java:S106H"+Replace this use of System.out by a logger.(¬õÇßüÿÿÿÿ8Áô¿ÿ‘2J$f0a983f7-a8ff-4785-ada4-9c2115261e0b
